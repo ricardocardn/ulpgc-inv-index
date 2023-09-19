@@ -1,6 +1,5 @@
 from InvertedIndexHandler import InvertedIndexHandler
 
-
 def main():
     iih = InvertedIndexHandler()
     iih.insert_word_document("word", "001")
