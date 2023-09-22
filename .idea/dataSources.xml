@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="inverted-index-db" uuid="5d026389-f51f-4cd4-86d8-9501f891e97a">
+    <data-source source="LOCAL" name="inverted-index-db" uuid="701861f8-9ff4-4a49-a58e-72c57c420522">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
