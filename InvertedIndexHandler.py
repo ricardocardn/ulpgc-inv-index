@@ -34,3 +34,4 @@ class InvertedIndexHandler:
                 document=existing_document,
                 word_multiplicity="1"
             )
+
