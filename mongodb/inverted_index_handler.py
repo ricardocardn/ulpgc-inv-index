@@ -35,12 +35,15 @@ class InvertedIndexHandler:
 
         inserted_doc_id = self.MongoDB.add_word({
             "word": word,
-            "documents": [
-                {
-                    "document_id": document_id,
-                    "positions": [position]
-                }
-            ]
+            "documents": [document_id]
         })
 
         return inserted_doc_id
+    
+
+    def post_from_local(self, dict):
+        for word in dict.keys():
+            self.MongoDB.add_word({
+                "word": word,
+                "documents": list(dict[word])
+            })

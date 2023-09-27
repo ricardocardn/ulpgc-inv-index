@@ -31,12 +31,8 @@ class MongoDB:
 
         if query_id:
             for document in query_id["documents"]:
-                # If the document already contains that word, append the new position
-                if document["document_id"] == dict["documents"][0]["document_id"]:
-                    document["positions"].append(dict["documents"][0]["positions"][0])
-
-                    # Update the document
-                    self.col.update_one(query, {"$set": {"documents": query_id["documents"]}})
+                # If the document already contains that word, done
+                if document == dict["documents"][0]:
                     return query_id["_id"]
             
             else:
