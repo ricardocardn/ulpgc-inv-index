@@ -2,6 +2,7 @@ from peewee import Model, SqliteDatabase, CharField, ForeignKeyField
 
 database = SqliteDatabase('inverted-index-db.db')
 
+
 class BaseModel(Model):
     class Meta:
         database = database
@@ -20,11 +21,12 @@ class WordDocumentAssociation(BaseModel):
     document = ForeignKeyField(Document, backref='words')
     word_multiplicity = CharField()
 
-#TWO OPTIONS:
+
+# TWO OPTIONS:
 
 # Create tables if they don't exist
-#database.connect()
-#database.create_tables([Word, Document, WordDocumentAssociation])
+# database.connect()
+# database.create_tables([Word, Document, WordDocumentAssociation])
 
 # Drop existing tables (if they exist)
 database.connect()

@@ -1,6 +1,5 @@
 from datalake_builder import create_datalake
 from mongodb.index_creator import index_creator
-
 if __name__ == '__main__':
 
     create_datalake()
