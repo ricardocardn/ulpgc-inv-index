@@ -11,4 +11,4 @@ if __name__ == '__main__':
 def time_measures():
     # measure of databaste 
     #measure od no sql
-
+    pass
