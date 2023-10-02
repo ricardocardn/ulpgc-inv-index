@@ -1,5 +1,7 @@
 from database_create import Word, Document, WordDocumentAssociation
-
+import os
+from nltk import word_tokenize
+from nltk.corpus import words
 
 class InvertedIndexHandler:
 
@@ -34,4 +36,20 @@ class InvertedIndexHandler:
                 document=existing_document,
                 word_multiplicity="1"
             )
+
+    def inverted_index_index_of(self):
+        iih = InvertedIndexHandler()
+        document_list = self.get_documents()
+
+        for document_id in document_list:
+            with open(os.path.join("datalake/content", document), 'r', encoding='utf-8') as file:
+                text = file.read()
+                document = word_tokenize(text)
+                for word in words:
+                    iih.insert_word_document(word, document_id)
+
+    def get_documents(self):
+        documents = os.listdir('../datalake/content')
+
+        return documents
 
