@@ -1,6 +1,10 @@
 import os
 import re
 
+import nltk
+from nltk import word_tokenize
+from nltk.corpus import stopwords, words
+
 
 def parse_files():
     for filename in os.listdir('datalake/books'):
@@ -25,21 +29,45 @@ def get_language(document):
     language=re.search(pattern, document)
     return language.group(1)
 
+
 def remove_non_alphanumeric_characters(text):
     # Uses a regular expression to remove non-alphabetic characters and numbers
     processed_text = re.sub(r'[^A-Za-z\s]', '', text)
     return processed_text
 
-def normalize(documents):
+
+def remove_spaces_oneword(text):
+    # Removes single letters
+    text_without_single_letters  = ' '.join([word for word in text.split() if len(word) > 1])
+    
+    # Replaces multiple consecutive spaces by a single space
+    normalised_text = ' '.join(text_without_single_letters .split())
+
+    return normalised_text
+
+
+def normalize(documents, metadata):
+    nltk.download('stopwords')
+    nltk.download('punkt')
     # Process and overwrite each file in the same input directory
-    for document in documents:
-        with open(os.path.join("datalake/content", document), 'r', encoding='utf-8') as file:
+    for doc, met in zip(documents,metadata):
+        with open(os.path.join("datalake/content", doc), 'r', encoding='utf-8') as file:
             text = file.read()
             processed_text = remove_non_alphanumeric_characters(text)
+            processed_text = remove_spaces_oneword(processed_text)
 
-            # Overwrite the original file with the processed text
-            with open(os.path.join("datalake/content", document), 'w', encoding='utf-8') as output:
-                output.write(processed_text)
+        with open(os.path.join('datalake/metadata', met), encoding="utf-8") as f:
+            metadata_text = f.read()
 
-def remove_stop_words():
-    pass
+        language = get_language(metadata_text)
+        language_stopwords = set(stopwords.words(language.lower()))
+        document = word_tokenize(processed_text)
+        filtered_words = [word for word in document if word not in language_stopwords]
+
+        with open(os.path.join("datalake/content", doc), 'w', encoding='utf-8') as output:
+            output.write(' '.join(filtered_words))
+
+
+def create_datalake():
+    parse_files()
+    normalize(os.listdir('datalake/content'), os.listdir('datalake/metadata'))

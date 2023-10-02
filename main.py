@@ -1,11 +1,18 @@
-from mongodb.mongo_db_manager import MongoDB
-from mongodb.inverted_index_handler import InvertedIndexHandler
-from mongodb.local_inverted_index import LocalInvertedIndex
-from mongodb.document_handler import DocumentHandler
+#from mongodb.mongo_db_manager import MongoDB
+#from mongodb.inverted_index_handler import InvertedIndexHandler
+#from mongodb.local_inverted_index import LocalInvertedIndex
+#from mongodb.document_handler import DocumentHandler
+from datalake_builder import create_datalake
 
 import time
 
 if __name__ == '__main__':
+
+    create_datalake()
+    #add_to_mongo()
+
+    # datalake 
+    """
     mongoDB = MongoDB()
     inverted_index_handler = InvertedIndexHandler(mongoDB)
     document_handler = DocumentHandler("ulpgc-inv-index\datalake\content")
@@ -21,4 +28,4 @@ if __name__ == '__main__':
     local_inverted_index.post_index()
     end = time.time()
 
-    print(f"Posting time: {end - start}")
+    print(f"Posting time: {end - start}")"""
