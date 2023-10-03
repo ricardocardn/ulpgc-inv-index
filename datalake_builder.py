@@ -31,16 +31,12 @@ def get_language(document):
 
 
 def remove_non_alphanumeric_characters(text):
-    # Uses a regular expression to remove non-alphabetic characters and numbers
     processed_text = re.sub(r'[^A-Za-z\s]', '', text)
     return processed_text
 
 
 def remove_spaces_oneword(text):
-    # Removes single letters
     text_without_single_letters  = ' '.join([word for word in text.split() if len(word) > 1])
-    
-    # Replaces multiple consecutive spaces by a single space
     normalised_text = ' '.join(text_without_single_letters .split())
 
     return normalised_text
@@ -49,7 +45,7 @@ def remove_spaces_oneword(text):
 def normalize(documents, metadata):
     nltk.download('stopwords')
     nltk.download('punkt')
-    # Process and overwrite each file in the same input directory
+
     for doc, met in zip(documents,metadata):
         with open(os.path.join("datalake/content", doc), 'r', encoding='utf-8') as file:
             text = file.read()
