@@ -1,7 +1,8 @@
+import time
 from . import database_create
 import os
 from nltk import word_tokenize
-from nltk.corpus import words
+
 
 class SQLInvertedIndexHandler:
 
@@ -37,9 +38,7 @@ class SQLInvertedIndexHandler:
                 word_multiplicity="1"
             )
 
-    def inverted_index_index_of(self):
-        document_list = self.get_documents()
-
+    def inverted_index_of(self, document_list):
         for document_id in document_list:
             with open(os.path.join("datalake/content", document_id), 'r', encoding='utf-8') as file:
                 text = file.read()
@@ -47,8 +46,14 @@ class SQLInvertedIndexHandler:
                 for word in words:
                     self.insert_word_document(word, document_id)
 
-    def get_documents(self):
-        documents = os.listdir('./datalake/content')
+    def benchmark_inverted_index_of(self, document_list):
+        start_time = time.time()
+        self.inverted_index_of(document_list)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        execution_time_formatted = f"{execution_time:.6f}"  # Format to 6 decimal places
+        return execution_time_formatted
 
-        return documents
-
+    # def get_documents():
+    #    documents = os.listdir('./datalake/content')
+    #    return documents
