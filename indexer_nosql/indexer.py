@@ -21,6 +21,7 @@ class Indexer:
     def insert_document(self, words, document_id):
         print(f"Inserting document {document_id}")
         for word in set(words):
+            print(f"Inserting word {word}")
             self.insert_word(word, document_id)
         
 

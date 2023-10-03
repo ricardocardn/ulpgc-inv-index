@@ -8,7 +8,8 @@ from nltk.corpus import stopwords, words
 
 def parse_files():
     for filename in os.listdir('datalake/books'):
-        name = filename.split('.txt')[0].split('_')[2]
+        pattern = r"_(\d+)_"
+        name = re.search(pattern, filename).group(1)
 
         with open(os.path.join('datalake/books', filename), encoding="utf-8") as f:
             text = f.read()
@@ -67,3 +68,7 @@ def normalize(documents, metadata):
 def create_datalake():
     parse_files()
     normalize(os.listdir('datalake/content'), os.listdir('datalake/metadata'))
+
+
+if __name__ == "__main__":
+    create_datalake()
