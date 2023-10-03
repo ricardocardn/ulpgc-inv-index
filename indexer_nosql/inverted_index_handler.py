@@ -19,8 +19,8 @@ class InvertedIndexHandler:
         :return: inserted id
         """
 
-        for position, word in enumerate(words):
-            self.insert_word_document(word, document_id, position)
+        for word in set(words):
+            self.insert_word_document(word, document_id)
 
         return True
         

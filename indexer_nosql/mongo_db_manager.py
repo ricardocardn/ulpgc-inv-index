@@ -19,7 +19,7 @@ class MongoDB:
         self.col = self.db[collection]
 
 
-    def add_word(self, dict):
+    def add_word(self, word, id):
         """ Add a word to the collection
         :param dict: Dictionary with the word and the document
         :return: The id of the inserted document
@@ -30,16 +30,10 @@ class MongoDB:
         query_id = self.col.find_one(query)
 
         if query_id:
-            for document in query_id["documents"]:
-                # If the document already contains that word, done
-                if document == dict["documents"][0]:
-                    return query_id["_id"]
-            
-            else:
-                # If the document doesn't exist, add it to the word's documents list
-                query_id["documents"].append(dict["documents"][0])
-                self.col.update_one(query, {"$set": {"documents": query_id["documents"]}})
-                return query_id["_id"]
+            if self.inserted(id):
+            query_id["documents"].append(dict["documents"][0])
+            self.col.update_one(query, {"$set": {"documents": query_id["documents"]}})
+            return query_id["_id"]
             
         else:
             # If the word doesn't exist, add it to the collection
