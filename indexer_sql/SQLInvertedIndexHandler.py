@@ -46,14 +46,6 @@ class SQLInvertedIndexHandler:
                 for word in words:
                     self.insert_word_document(word, document_id)
 
-    def benchmark_inverted_index_of(self, document_list):
-        start_time = time.time()
-        self.inverted_index_of(document_list)
-        end_time = time.time()
-        execution_time = end_time - start_time
-        execution_time_formatted = f"{execution_time:.6f}"  # Format to 6 decimal places
-        return execution_time_formatted
-
     # def get_documents():
     #    documents = os.listdir('./datalake/content')
     #    return documents
