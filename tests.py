@@ -1,39 +1,49 @@
 from indexer_nosql.indexer import Indexer
 from indexer_nosql.mongo_db_manager import MongoDB
-from indexer_nosql.document_handler import DocumentHandler
 
 import time
 
 mongoDB = MongoDB()
-document_handler = DocumentHandler("datalake/content")
-indexer = Indexer(mongoDB, document_handler)
+indexer = Indexer(mongoDB)
 
-document_ids = ['45', '2735', '5341', '5342', '24873', '71673']
+creation_documents = ['45', '2735', '5341', '5342', '24873', '71673']
+insertion_documents = ['71674', '71776', '71777', '71783', '71784']
 
-def insert_documents(docs):
+
+def insert_to_mongo(docs):
     global indexer
-    indexer.insert_documents(docs)
 
-
-def test_mongo_n_files(n):
     start = time.time()
-    insert_documents(document_ids[:2:n])
+    indexer.insert_documents(docs)
     end = time.time()
 
-    duration = end - start
-    print(f"Time for {n} documents: {duration} seconds")
-    return duration
+    return end - start
 
 
-def test_mongo():
-    mongoDB.col.delete_many({})
-    mongoDB.documents_col.delete_many({})
+def test_mongo_n_files(n, empty):
+    if empty:
+        global creation_documents
+        print("Testing mongoDB with documents", creation_documents[:2*n],"(empty db)")
+        return insert_to_mongo(creation_documents[:2*n])
+    else:
+        global insertion_documents
+        print("Testing mongoDB with documents", insertion_documents[:2*n],"(not empty db)")
+        return insert_to_mongo(insertion_documents[:2*n])
+
+
+def test_mongo(empty = False):
+    global mongoDB
+
+    if empty:
+        mongoDB.col.delete_many({})
+        mongoDB.documents_col.delete_many({})
 
     durations = []
-    global document_ids
 
-    for i in range(1, 7):
-        durations.append(test_mongo_n_files(i))
+    for i in range(5):
+        duration = test_mongo_n_files(i + 1, empty)
+        print("Execution time (seconds):", duration, "\n")
+        durations.append(duration)
 
     return durations
 

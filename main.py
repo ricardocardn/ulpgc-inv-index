@@ -2,7 +2,7 @@ from datalake_builder import create_datalake
 
 from indexer_nosql.indexer import Indexer
 from indexer_nosql.mongo_db_manager import MongoDB
-from indexer_nosql.document_handler import DocumentHandler
+from indexer_nosql.content_tokenizer import DocumentHandler
 
 mongoDB = MongoDB()
 document_handler = DocumentHandler("datalake/content")

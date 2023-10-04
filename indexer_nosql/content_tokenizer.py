@@ -1,6 +1,6 @@
 from os import listdir
 
-class DocumentHandler:
+class ContentTokenizer:
     def __init__(self, rute):
         self.rute = rute
     

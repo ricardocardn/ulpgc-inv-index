@@ -1,12 +1,11 @@
 import pymongo
-
-import json
+from .content_tokenizer import ContentTokenizer
 
 class Indexer:
 
-    def __init__(self, mongoDB, document_handler):
+    def __init__(self, mongoDB, rute="datalake/content"):
         self.mongoDB = mongoDB
-        self.document_handler = document_handler
+        self.document_handler = ContentTokenizer(rute)
 
 
     def insert_all_documents(self):
