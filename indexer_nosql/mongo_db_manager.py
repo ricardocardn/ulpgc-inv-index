@@ -8,17 +8,17 @@ class MongoDB:
         self.documents_col = self.db[doc_collection]
 
 
-    def add_word(self, word, id):
+    def add_word(self, word, document_id):
         query = {"word": word}
         query_id = self.col.find_one(query)
 
         if query_id:
-            query_id["documents"].append(id)
+            query_id["documents"].append(document_id)
             self.col.update_one(query, {"$set": {"documents": query_id["documents"]}})
             return query_id["_id"]
             
         else:
-            dict = {"word": word, "documents": [id]}
+            dict = {"word": word, "documents": [document_id]}
             inserted_doc = self.col.insert_one(dict)
             return inserted_doc.inserted_id
         
