@@ -57,4 +57,4 @@ def test_mongo(empty = False):
 
 if __name__ == '__main__':
     test_mongo(empty=True)
-    test_mongo
+    test_mongo()
