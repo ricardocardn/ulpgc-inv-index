@@ -38,4 +38,3 @@ class SQLInvertedIndexHandler:
                 words = word_tokenize(text)
                 for word in words:
                     self.insert_word_document(word, document_id)
-

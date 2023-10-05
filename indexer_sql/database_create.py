@@ -25,6 +25,7 @@ class WordDocumentAssociation(BaseModel):
 database.connect()
 database.create_tables([Word, Document, WordDocumentAssociation])
 
-def delete_tables():
+def clean_database():
     database.drop_tables([Word, Document, WordDocumentAssociation])
+    database.create_tables([Word, Document, WordDocumentAssociation])
 

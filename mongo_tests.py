@@ -6,7 +6,7 @@ from os import listdir
 
 mongoDB = MongoDB()
 indexer = Indexer(mongoDB)
-max_words_per_document = 2000
+max_words_per_document = None
 
 creation_documents = listdir("datalake/content")[:10]
 insertion_documents = listdir("datalake/content")[10:20]
