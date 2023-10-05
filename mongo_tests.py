@@ -2,11 +2,10 @@ from indexer_nosql.indexer import Indexer
 from indexer_nosql.mongo_db_manager import MongoDB
 
 import time
-import os
 
 mongoDB = MongoDB()
 indexer = Indexer(mongoDB)
-max_words_per_document = None
+max_words_per_document = 2000
 
 creation_documents = [['1519', '1524'],
                       ['1519', '1524', '24873', '2735'],
@@ -19,15 +18,9 @@ insertion_documents = [['71674', '71776'],
                        ['71674', '71776', '71777', '71783', '71784', '71799'],
                        ['71674', '71776', '71777', '71783', '71784', '71799', '71802', '71803'],
                        ['71674', '71776', '71777', '71783', '71784', '71799', '71802', '71803', '71804', '71807']]
-
-
-def clean_mongo_db():
-    global mongoDB
-    mongoDB.col.delete_many({})
-    mongoDB.documents_col.delete_many({})
     
 
-def insert_to_mongo(docs):
+def test_mongo_file(docs):
     global indexer
     global max_words_per_document
 
@@ -38,25 +31,30 @@ def insert_to_mongo(docs):
     return end - start
 
 
-def test_mongo_files(i, empty):
+def test_mongo_several_files(i, empty):
+    global mongoDB
     if empty:
         global creation_documents
         print("Testing mongoDB with documents", creation_documents[i],"(empty db)")
-        return insert_to_mongo(creation_documents[i])
+        return test_mongo_file(creation_documents[i])
     else:
         global insertion_documents
-        print("Testing mongoDB with documents", insertion_documents[i],"(not empty db)")
-        return insert_to_mongo(insertion_documents[i])
+        print("Testing mongoDB with documents", insertion_documents[i],"(non empty db)")
+        for doc in insertion_documents[i]:
+            mongoDB.delete_document(int(doc))
+
+        return test_mongo_file(insertion_documents[i])
 
 
 def test_mongo(empty = False):
+    global mongoDB
     if empty:
-        clean_mongo_db()
+        mongoDB.clean_db()
 
     durations = []
 
-    for i in range(1):
-        duration = test_mongo_files(i, empty)
+    for i in range(5):
+        duration = test_mongo_several_files(i, empty)
         print("Execution time (seconds):", duration, "\n")
         durations.append(duration)
 

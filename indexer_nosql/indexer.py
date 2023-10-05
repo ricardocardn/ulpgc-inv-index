@@ -21,13 +21,3 @@ class Indexer:
         print(f"Inserting document {document_id}")
         for word in set(words):
             self.mongoDB.add_word(word, document_id)
-
-
-    def get_index(self):
-        cursor = self.mongoDB.col.find({})
-        inverted_index = dict()
-        
-        for word in cursor:
-            inverted_index[word["word"]] = word["documents"]
-
-        return inverted_index
