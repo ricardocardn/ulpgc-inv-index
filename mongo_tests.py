@@ -64,7 +64,5 @@ def test_mongo(empty = False):
 
 
 if __name__ == '__main__':
-    print([i.replace('.txt', '') for i in os.listdir("datalake/content")][:10])
-
-    #test_mongo(empty=True)
-    #test_mongo()
+    test_mongo(empty=True)
+    test_mongo()
