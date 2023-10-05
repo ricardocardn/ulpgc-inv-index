@@ -2,13 +2,14 @@ from indexer_nosql.indexer import Indexer
 from indexer_nosql.mongo_db_manager import MongoDB
 
 import time
+from os import listdir
 
 mongoDB = MongoDB()
 indexer = Indexer(mongoDB)
 max_words_per_document = 2000
 
-creation_documents = ['1519', '1524', '24873', '2735', '45', '5341', '5342', '57342', '71374', '71673'] 
-insertion_documents = ['71674', '71776', '71777', '71783', '71784', '71799', '71802', '71803', '71804', '71807']
+creation_documents = listdir("datalake/content")[:10]
+insertion_documents = listdir("datalake/content")[10:20]
     
 
 def test_mongo_file(docs):

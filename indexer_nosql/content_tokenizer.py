@@ -6,10 +6,11 @@ class ContentTokenizer:
     
 
     def get_documents(self, docs = None, top = None):
-        documents = docs if docs else self.get_ids()
+        documents = self.get_ids(docs)
         
         documents_dict = dict()
         for document in documents:
+            doc_name = document.replace(".txt", "")
             documents_dict[int(document)] = self.get_document(document)[:top]
 
         return documents_dict
@@ -21,7 +22,7 @@ class ContentTokenizer:
         return content_text.split()
     
 
-    def get_ids(self):
-        documents = listdir(self.rute)
+    def get_ids(self, docs = None):
+        documents = docs if docs else listdir(self.rute)
         documents = [document.replace(".txt", "") for document in documents]
         return documents
