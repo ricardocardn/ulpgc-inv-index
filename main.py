@@ -7,7 +7,7 @@ mongoDB = MongoDB()
 indexer = Indexer(mongoDB)
 
 if __name__ == '__main__':
-    # create_datalake()
+    create_datalake()
     # indexer.insert_all_documents()
 
     inv_index = indexer.get_index()

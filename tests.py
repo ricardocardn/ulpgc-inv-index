@@ -2,16 +2,23 @@ from indexer_nosql.indexer import Indexer
 from indexer_nosql.mongo_db_manager import MongoDB
 
 import time
+import os
 
 mongoDB = MongoDB()
 indexer = Indexer(mongoDB)
+max_words_per_document = None
 
-creation_documents = [['45', '2735'],
-                      ['45', '2735', '5341', '5342'],
-                      ['45', '2735', '5341', '5342', '24873', '71673']]
+creation_documents = [['1519', '1524'],
+                      ['1519', '1524', '24873', '2735'],
+                      ['1519', '1524', '24873', '2735', '45', '5341'],
+                      ['1519', '1524', '24873', '2735', '45', '5341', '5342', '57342'],
+                      ['1519', '1524', '24873', '2735', '45', '5341', '5342', '57342', '71374', '71673']]
 
-insertion_documents = [['71674', '71776'], 
-                       ['71777', '71783', '71784']]
+insertion_documents = [['71674', '71776'],
+                       ['71674', '71776', '71777', '71783'],
+                       ['71674', '71776', '71777', '71783', '71784', '71799'],
+                       ['71674', '71776', '71777', '71783', '71784', '71799', '71802', '71803'],
+                       ['71674', '71776', '71777', '71783', '71784', '71799', '71802', '71803', '71804', '71807']]
 
 
 def clean_mongo_db():
@@ -22,9 +29,10 @@ def clean_mongo_db():
 
 def insert_to_mongo(docs):
     global indexer
+    global max_words_per_document
 
     start = time.time()
-    indexer.insert_documents(docs)
+    indexer.insert_documents(docs, top=max_words_per_document)
     end = time.time()
 
     return end - start
@@ -47,7 +55,7 @@ def test_mongo(empty = False):
 
     durations = []
 
-    for i in range(5):
+    for i in range(1):
         duration = test_mongo_files(i, empty)
         print("Execution time (seconds):", duration, "\n")
         durations.append(duration)
@@ -56,5 +64,7 @@ def test_mongo(empty = False):
 
 
 if __name__ == '__main__':
-    test_mongo(empty=True)
-    test_mongo()
+    print([i.replace('.txt', '') for i in os.listdir("datalake/content")][:10])
+
+    #test_mongo(empty=True)
+    #test_mongo()

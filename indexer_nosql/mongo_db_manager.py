@@ -27,7 +27,17 @@ class MongoDB:
         dict = {"document": id}
         inserted_doc = self.documents_col.insert_one(dict)
         return inserted_doc.inserted_id
+    
 
+    def delete_from_documents(self, id):
+        query = {"document": id}
+        self.documents_col.delete_one(query)
+
+
+    def delete_document_from_index_words(self, id):
+        query = {"documents": id}
+        self.col.delete_many(query)
+        
 
     def is_inserted(self, id):
         query = {"document": id}

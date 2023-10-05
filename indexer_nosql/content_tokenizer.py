@@ -5,12 +5,12 @@ class ContentTokenizer:
         self.rute = rute
     
 
-    def get_documents(self, docs = None):
+    def get_documents(self, docs = None, top = None):
         documents = docs if docs else self.get_ids()
         
         documents_dict = dict()
         for document in documents:
-            documents_dict[int(document)] = self.get_document(document)
+            documents_dict[int(document)] = self.get_document(document)[:top]
 
         return documents_dict
 

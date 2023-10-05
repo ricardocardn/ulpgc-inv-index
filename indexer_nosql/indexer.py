@@ -8,8 +8,8 @@ class Indexer:
         self.contentTokenizer = ContentTokenizer(rute)
 
 
-    def insert_documents(self, documents = None):
-        documents = self.contentTokenizer.get_documents(documents)
+    def insert_documents(self, documents = None, top = None):
+        documents = self.contentTokenizer.get_documents(documents, top)
 
         for document_id, words in documents.items():
             if not self.mongoDB.is_inserted(document_id):
