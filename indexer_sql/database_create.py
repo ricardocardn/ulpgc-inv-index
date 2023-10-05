@@ -22,15 +22,9 @@ class WordDocumentAssociation(BaseModel):
     word_multiplicity = CharField()
 
 
-# TWO OPTIONS:
-
-# Create tables if they don't exist
 database.connect()
 database.create_tables([Word, Document, WordDocumentAssociation])
 
-# Drop existing tables (if they exist)
-#database.connect()
-#database.drop_tables([Word, Document, WordDocumentAssociation], safe=True)
+def delete_tables():
+    database.drop_tables([Word, Document, WordDocumentAssociation])
 
-# Create tables
-#database.create_tables([Word, Document, WordDocumentAssociation])
