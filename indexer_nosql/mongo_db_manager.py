@@ -8,7 +8,7 @@ class MongoDB:
         self.documents_col = self.db[doc_collection]
 
 
-    def add_word(self, word, document_id):
+    def insert_into_words(self, word, document_id):
         query = {"word": word}
         query_id = self.col.find_one(query)
 
@@ -23,7 +23,7 @@ class MongoDB:
             return inserted_doc.inserted_id
         
 
-    def insert_to_documents(self, id):
+    def insert_into_documents(self, id):
         dict = {"document": id}
         inserted_doc = self.documents_col.insert_one(dict)
         return inserted_doc.inserted_id
@@ -42,12 +42,16 @@ class MongoDB:
         return result
 
 
-    def get_content(self):
-        cursor = self.col.find({})
+    def get_index_of(self, document_list = None):
+        cursor = self.col.find({"documents": {"$in": document_list}})
+        cursor = cursor if document_list else self.col.find({})
         inverted_index = dict()
-        
+
         for word in cursor:
-            inverted_index[word["word"]] = word["documents"]
+            if document_list:
+                inverted_index[word["word"]] = set(word["documents"]).intersection(set(document_list))
+            else:
+                inverted_index[word["word"]] = word["documents"]
 
         return inverted_index
     
