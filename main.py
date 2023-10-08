@@ -19,5 +19,7 @@ def inverted_index_of(document_list)->(dict):
 
 
 if __name__ == '__main__':
-    #create_datalake()
+    create_datalake()
     inverted_index = inverted_index_of(listdir("datalake/content")[:3])
+    
+    print(inverted_index)

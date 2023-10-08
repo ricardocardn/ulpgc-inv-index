@@ -29,14 +29,14 @@ class MongoDB:
         return inserted_doc.inserted_id
 
 
-    def is_inserted(self, id):
+    def exists_document(self, id):
         query = {"document": id}
         result = self.documents_col.find_one(query)
         
         return True if result else False
 
 
-    def find_query(self, word):
+    def exists_word(self, word):
         query = {"word": word}
         result = self.col.find_one(query)
         return result
